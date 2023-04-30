@@ -1,4 +1,4 @@
-import { User } from '@prisma/client'
+import { type User } from '@prisma/client'
 import prisma from '../db'
 
 const getAllUser = async (): Promise<User[]> => {

@@ -7,21 +7,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  content   String?
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
+// schema.prisma
+
+// User model
+model User {
+  id        Int     @id @default(autoincrement())
+  name      String
+  email     String
+  phone     String
+  password  String
+  instagram String?
+
+  // Posts related to this user
+  posts Post[]
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  bio   String?
-  email String  @unique
-  name  String?
+// Post model
+model Post {
+  id                Int       @id @default(autoincrement())
+  user_id           Int
+  title             String
+  description       String
+  post_date         DateTime  @default(now())
+  modification_date DateTime  @updatedAt
+  expiration_date   DateTime?
+  image_code        String
+  status            Boolean
+  campus_id         Int
+  price             Int
+
+  // User who created this post
+  user User @relation(fields: [user_id], references: [id])
+
+  // Campus where this post was created
+  campus Campus @relation(fields: [campus_id], references: [id])
+}
+
+// Campus model
+model Campus {
+  id          Int    @id @default(autoincrement())
+  campus_name String
+
+  // Posts related to this campus
   posts Post[]
 }
