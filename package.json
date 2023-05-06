@@ -5,14 +5,14 @@
     "node": "16.x"
   },
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "schema": "node src/schemaGenerator.js",
     "migrate": "npx prisma migrate dev --name init",
     "dev": "ts-node-dev src/index.ts",
     "lint": "eslint --ext .ts .",
     "lint-fix": "eslint --ext .ts . --fix",
-    "start": "node build/index.js",
+    "start": "node build/src/index.js",
     "tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

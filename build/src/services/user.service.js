@@ -16,4 +16,11 @@ const db_1 = __importDefault(require("../db"));
 const getAllUser = () => __awaiter(void 0, void 0, void 0, function* () {
     return yield db_1.default.user.findMany();
 });
-exports.default = { getAllUser };
+const findUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield db_1.default.user.findUnique({
+        where: {
+            email
+        }
+    });
+});
+exports.default = { getAllUser, findUserByEmail };

@@ -15,43 +15,68 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deletePost = exports.putPost = exports.postPost = exports.getPostById = exports.getAllPosts = void 0;
 const post_service_1 = __importDefault(require("../services/post.service"));
 const utils_1 = require("../utils");
-const getAllPosts = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const posts = yield post_service_1.default.getAllPosts();
-    res.status(200).json(posts);
+const getAllPosts = (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const posts = yield post_service_1.default.getAllPosts();
+        res.status(200).json(posts);
+    }
+    catch (err) {
+        next(err);
+    }
 });
 exports.getAllPosts = getAllPosts;
-const getPostById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = Number(req.params.id);
-    const post = yield post_service_1.default.findPostById(id);
-    if (post != null) {
-        res.status(200).json(post);
+const getPostById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = Number(req.params.id);
+        const post = yield post_service_1.default.findPostById(id);
+        if (post != null) {
+            res.status(200).json(post);
+        }
+        else {
+            res.sendStatus(404);
+        }
     }
-    else {
-        res.sendStatus(404);
+    catch (err) {
+        next(err);
     }
 });
 exports.getPostById = getPostById;
-const postPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const newPost = (0, utils_1.toNewPostEntry)(req.body);
-    const insertedPost = yield post_service_1.default.savePost(newPost);
-    res.status(200).json(insertedPost);
+const postPost = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const newPost = (0, utils_1.toNewPostEntry)(req.body);
+        const insertedPost = yield post_service_1.default.savePost(newPost);
+        res.status(200).json(insertedPost);
+    }
+    catch (err) {
+        next(err);
+    }
 });
 exports.postPost = postPost;
-const putPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = Number(req.params.id);
-    const newPost = (0, utils_1.toNewPostEntry)(req.body);
-    const updatedPost = yield post_service_1.default.updatePost(id, newPost);
-    if (updatedPost != null) {
-        res.status(200).json(updatedPost);
+const putPost = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = Number(req.params.id);
+        const newPost = (0, utils_1.toNewPostEntry)(req.body);
+        const updatedPost = yield post_service_1.default.updatePost(id, newPost);
+        if (updatedPost != null) {
+            res.status(200).json(updatedPost);
+        }
+        else {
+            res.status(400);
+        }
     }
-    else {
-        res.status(400);
+    catch (err) {
+        next(err);
     }
 });
 exports.putPost = putPost;
-const deletePost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = Number(req.params.id);
-    const deletePost = yield post_service_1.default.deletePost(id);
-    res.status(200).json(deletePost);
+const deletePost = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = Number(req.params.id);
+        const deletePost = yield post_service_1.default.deletePost(id);
+        res.status(200).json(deletePost);
+    }
+    catch (err) {
+        next(err);
+    }
 });
 exports.deletePost = deletePost;

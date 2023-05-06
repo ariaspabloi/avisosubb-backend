@@ -17,12 +17,24 @@ const savePost = (data) => __awaiter(void 0, void 0, void 0, function* () {
     return yield db_1.default.post.create({ data });
 });
 const getAllPosts = () => __awaiter(void 0, void 0, void 0, function* () {
-    return yield db_1.default.post.findMany();
+    return yield db_1.default.post.findMany({
+        where: { status: true },
+        include: {
+            user: {
+                select: { id: true, name: true }
+            }
+        }
+    });
 });
 const findPostById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return yield db_1.default.post.findUnique({
         where: {
             id
+        },
+        include: {
+            user: {
+                select: { id: true, name: true, email: true, phone: true, instagram: true }
+            }
         }
     });
 });
