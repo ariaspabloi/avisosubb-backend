@@ -7,13 +7,25 @@ const savePost = async (data: PostEntry): Promise<Post> => {
 }
 
 const getAllPosts = async (): Promise<Post[]> => {
-  return await prisma.post.findMany()
+  return await prisma.post.findMany({
+    where: { status: true },
+    include: {
+      user: {
+        select: { id: true, name: true }
+      }
+    }
+  })
 }
 
 const findPostById = async (id: number): Promise<Post | null> => {
   return await prisma.post.findUnique({
     where: {
       id
+    },
+    include: {
+      user: {
+        select: { id: true, name: true, email: true, phone: true, instagram: true }
+      }
     }
   })
 }
