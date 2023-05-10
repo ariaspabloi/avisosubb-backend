@@ -29,7 +29,7 @@ const getPostById = async (req: Request, res: Response, next: NextFunction): Pro
 
 const postPost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const newPost: PostEntry = toNewPostEntry(req.body)
+    const newPost: PostEntry = toNewPostEntry({ ...req.body, user_id: req.user_id })
     const insertedPost: Post = await postService.savePost(newPost)
     res.status(200).json(insertedPost)
   } catch (err) {
