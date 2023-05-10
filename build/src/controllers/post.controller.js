@@ -43,7 +43,7 @@ const getPostById = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
 exports.getPostById = getPostById;
 const postPost = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const newPost = (0, utils_1.toNewPostEntry)(req.body);
+        const newPost = (0, utils_1.toNewPostEntry)(Object.assign(Object.assign({}, req.body), { user_id: req.user_id }));
         const insertedPost = yield post_service_1.default.savePost(newPost);
         res.status(200).json(insertedPost);
     }
