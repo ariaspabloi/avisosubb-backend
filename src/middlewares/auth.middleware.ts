@@ -14,6 +14,7 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
     }
     const decoded = jwt.verify(token, KEY) as JwtPayload
     req.user_id = decoded.user_id
+    console.log(req.user_id, decoded.user_id)
     next()
   } catch (error) {
     res.status(400).send('Token invalido')
