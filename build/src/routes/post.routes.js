@@ -10,6 +10,8 @@ const post_middleware_1 = require("../middlewares/post.middleware");
 const auth_middleware_1 = require("../middlewares/auth.middleware");
 const postRouter = express_1.default.Router();
 postRouter.get('/', post_controller_1.getAllPosts);
+postRouter.get('/user/:id', post_controller_1.getPostsByUser);
+postRouter.get('/user', auth_middleware_1.authenticateToken, post_controller_1.getPostsByUser);
 postRouter.get('/:id', post_controller_1.getPostById);
 postRouter.post('/', auth_middleware_1.authenticateToken, post_middleware_1.postInputMiddleware, post_controller_1.postPost);
 postRouter.put('/:id', post_controller_1.putPost);

@@ -26,6 +26,18 @@ const getAllPosts = () => __awaiter(void 0, void 0, void 0, function* () {
         }
     });
 });
+const getPostsByUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield db_1.default.post.findMany({
+        where: {
+            user_id: id
+        },
+        include: {
+            user: {
+                select: { id: true, name: true, email: true, phone: true, instagram: true }
+            }
+        }
+    });
+});
 const findPostById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return yield db_1.default.post.findUnique({
         where: {
@@ -49,4 +61,4 @@ const deletePost = (id) => __awaiter(void 0, void 0, void 0, function* () {
         where: { id }
     });
 });
-exports.default = { savePost, getAllPosts, findPostById, updatePost, deletePost };
+exports.default = { savePost, getAllPosts, findPostById, updatePost, deletePost, getPostsByUser };

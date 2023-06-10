@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePost = exports.putPost = exports.postPost = exports.getPostById = exports.getAllPosts = void 0;
+exports.getPostsByUser = exports.deletePost = exports.putPost = exports.postPost = exports.getPostById = exports.getAllPosts = void 0;
 const post_service_1 = __importDefault(require("../services/post.service"));
 const utils_1 = require("../utils");
 const getAllPosts = (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -27,7 +27,16 @@ const getAllPosts = (_req, res, next) => __awaiter(void 0, void 0, void 0, funct
 exports.getAllPosts = getAllPosts;
 const getPostById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = Number(req.params.id);
+        let id = 0;
+        if (req.params.id != null) {
+            id = Number(req.params.id);
+        }
+        else if (req.user_id != null) {
+            id = Number(req.user_id);
+        }
+        else {
+            res.sendStatus(400);
+        }
         const post = yield post_service_1.default.findPostById(id);
         if (post != null) {
             res.status(200).json(post);
@@ -41,6 +50,17 @@ const getPostById = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.getPostById = getPostById;
+const getPostsByUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = Number(req.params.id);
+        const posts = yield post_service_1.default.getPostsByUser(id);
+        res.status(200).json(posts);
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.getPostsByUser = getPostsByUser;
 const postPost = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const newPost = (0, utils_1.toNewPostEntry)(Object.assign(Object.assign({}, req.body), { user_id: req.user_id }));

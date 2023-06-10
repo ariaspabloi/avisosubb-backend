@@ -15,13 +15,30 @@ const getAllPosts = async (_req: Request, res: Response, next: NextFunction): Pr
 
 const getPostById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const id = Number(req.params.id)
+    let id: number = 0
+    if (req.params.id != null) {
+      id = Number(req.params.id)
+    } else if (req.user_id != null) {
+      id = Number(req.user_id)
+    } else {
+      res.sendStatus(400)
+    }
     const post: Post | null = await postService.findPostById(id)
     if (post != null) {
       res.status(200).json(post)
     } else {
       res.sendStatus(404)
     }
+  } catch (err) {
+    next(err)
+  }
+}
+
+const getPostsByUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const id = Number(req.params.id)
+    const posts: Post[] = await postService.getPostsByUser(id)
+    res.status(200).json(posts)
   } catch (err) {
     next(err)
   }
@@ -62,4 +79,4 @@ const deletePost = async (req: Request, res: Response, next: NextFunction): Prom
   }
 }
 
-export { getAllPosts, getPostById, postPost, putPost, deletePost }
+export { getAllPosts, getPostById, postPost, putPost, deletePost, getPostsByUser }

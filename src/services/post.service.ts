@@ -17,6 +17,19 @@ const getAllPosts = async (): Promise<Post[]> => {
   })
 }
 
+const getPostsByUser = async (id: number): Promise<Post[]> => {
+  return await prisma.post.findMany({
+    where: {
+      user_id: id
+    },
+    include: {
+      user: {
+        select: { id: true, name: true, email: true, phone: true, instagram: true }
+      }
+    }
+  })
+}
+
 const findPostById = async (id: number): Promise<Post | null> => {
   return await prisma.post.findUnique({
     where: {
@@ -43,4 +56,4 @@ const deletePost = async (id: number): Promise<Post | null> => {
   })
 }
 
-export default { savePost, getAllPosts, findPostById, updatePost, deletePost }
+export default { savePost, getAllPosts, findPostById, updatePost, deletePost, getPostsByUser }
