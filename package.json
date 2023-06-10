@@ -5,7 +5,7 @@
     "node": "16.x"
   },
   "description": "",
-  "main": "src/index.js",
+  "main": "build/src/index.js",
   "scripts": {
     "schema": "node src/schemaGenerator.js",
     "migrate": "npx prisma migrate dev --name init",
