@@ -1,6 +1,6 @@
 import { type Request, type Response, type NextFunction } from 'express'
 import * as jwt from 'jsonwebtoken'
-import { type JwtPayload } from '../types/express/index'
+import { type JwtPayload } from '../../types/express/index'
 const KEY = 'secreto'
 
 export const authenticateToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {

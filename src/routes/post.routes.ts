@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express, { type Router } from 'express'
 import { deletePost, getAllPosts, getPostById, postPost, putPost, getPostsByUser } from '../controllers/post.controller'
-import { postInputMiddleware } from '../middlewares/post.middleware'
-import { authenticateToken } from '../middlewares/auth.middleware'
+import { postInputMiddleware } from '../controllers/middlewares/post.middleware'
+import { authenticateToken } from '../controllers/middlewares/auth.middleware'
 import multer from 'multer'
 
 const storage = multer.memoryStorage()
