@@ -9,5 +9,6 @@
   "bracketSpacing": true,
   "arrowParens": "avoid",
   "semi": false,
-  "endOfLine": "auto"
+  "endOfLine": "auto",
+  "spaceBeforeFunctionParent": { "anonymous": "always", "named": "always" }
 }

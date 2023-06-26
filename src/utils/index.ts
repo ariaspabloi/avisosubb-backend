@@ -1,13 +1,11 @@
-import { type PostEntry } from '../../types'
+import { type PostEntry } from '../types/express/index'
 export const toNewPostEntry = (object: any): PostEntry => {
   return {
-    user_id: object.user_id,
     title: object.title,
     description: object.description,
     expiration_date: object.expiration_date,
-    image_code: object.image_code,
-    status: object.status,
-    campus_id: object.campus_id,
-    price: object.price
+    status: Boolean(object.status),
+    campus_id: Number(object.campus_id),
+    price: Number(object.price)
   }
 }

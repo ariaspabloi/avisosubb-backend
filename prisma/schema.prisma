@@ -32,16 +32,25 @@ model Post {
   post_date         DateTime  @default(now())
   modification_date DateTime  @updatedAt
   expiration_date   DateTime?
-  image_code        String
   status            Boolean
-  campus_id         Int
   price             Int
 
   // User who created this post
   user User @relation(fields: [user_id], references: [id])
 
   // Campus where this post was created
-  campus Campus @relation(fields: [campus_id], references: [id])
+  images    Image[] @relation("Images")
+  image     Image?  @relation("MainImage", fields: [image_id], references: [image_id])
+  image_id  Int?    @unique
+  campus    Campus  @relation(fields: [campus_id], references: [id])
+  campus_id Int
+}
+
+model Image {
+  image_id Int   @id @default(autoincrement())
+  post     Post  @relation("Images", fields: [post_id], references: [id])
+  post_id  Int
+  main     Post? @relation("MainImage")
 }
 
 // Campus model

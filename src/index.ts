@@ -4,6 +4,7 @@ import cors from 'cors'
 import userRouter from './routes/user.routes'
 import postRouter from './routes/post.routes'
 import authRouter from './routes/auth.routes'
+import imageRouter from './routes/image.routes'
 const app = express()
 const port = Number(process.env.PORT) | 8080
 
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/auth/', authRouter)
 app.use('/post/', postRouter)
 app.use('/user/', userRouter)
+app.use('/images/posts/', imageRouter)
 
 const start = (): void => {
   try {

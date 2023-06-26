@@ -1,13 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-/*
-import { Express } from 'express-serve-static-core'
-
-declare module 'express-serve-static-core' {
-  interface Request {
-    user_id: number
-  }
-}
-*/
+import { type Post, type Image } from '@prisma/client'
 export {}
 
 declare global {
@@ -16,4 +7,9 @@ declare global {
       user_id?: number
     }
   }
+}
+export type PostEntry = Omit<Post, 'id' | 'user_id' | 'image_id' | 'post_date' | 'modification_date'>
+export type ImageEntry = Omit<Image, 'image_id'>
+export interface JwtPayload {
+  user_id: number
 }

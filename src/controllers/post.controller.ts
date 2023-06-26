@@ -1,8 +1,9 @@
 import { type Request, type Response, type NextFunction } from 'express'
-import { type Post } from '@prisma/client'
+import { type Image, type Post } from '@prisma/client'
 import postService from '../services/post.service'
-import { type PostEntry } from '../../types'
+import { type PostEntry } from '../types/express/index'
 import { toNewPostEntry } from '../utils'
+import * as storageService from '../services/storage.service'
 
 const getAllPosts = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -46,9 +47,20 @@ const getPostsByUser = async (req: Request, res: Response, next: NextFunction): 
 
 const postPost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const newPost: PostEntry = toNewPostEntry({ ...req.body, user_id: req.user_id })
-    const insertedPost: Post = await postService.savePost(newPost)
-    res.status(200).json(insertedPost)
+    const newPost: PostEntry = toNewPostEntry({ ...req.body })
+    const imagesCount = req.files != null ? Number(req.files.length) : 0
+    const insertedPost: any = await postService.savePost(newPost, Number(req.user_id), imagesCount)
+    if (imagesCount === 0) {
+      res.status(200).json(insertedPost)
+    } else {
+      const imagesStructure = insertedPost.images.map((i: Image) => `${i.post_id}/${i.image_id}`)
+      await storageService.saveImages(imagesStructure, req.files)
+      const updatesPost = await postService.updatePost(insertedPost.id, {
+        ...insertedPost,
+        image_id: insertedPost.images[0].image_id
+      })
+      res.status(200).json(updatesPost)
+    }
   } catch (err) {
     next(err)
   }
